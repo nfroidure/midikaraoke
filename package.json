@@ -1,0 +1,33 @@
+{
+  "name": "MIDIKaraoke",
+  "version": "0.0.0",
+  "description": "Play MIDI Karaoke files right in your browser",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "browserify src/Application.js > www/javascript/production.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nfroidure/MIDIKaraoke"
+  },
+  "keywords": [
+    "MIDI",
+    "karaoke",
+    "player"
+  ],
+  "author": "Nicolas Froidure",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nfroidure/MIDIKaraoke/issues"
+  },
+  "homepage": "https://github.com/nfroidure/MIDIKaraoke",
+  "devDependencies": {
+    "browserify": "^6.0.3",
+    "commandor": "^0.1.1",
+    "midifile": "^0.2.0",
+    "midiplayer": "0.0.1",
+    "node-http-server": "^1.6.2"
+  }
+}

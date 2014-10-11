@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# v 1.00
+
+CACHE:
+/index.html
+/css/styles.css
+/images/sprites.png
+/javascript/production.js
+/javascript/polyfills/WebMIDIAPI.js
+/sounds/Hello.mid
+
+FALLBACK:
+
+NETWORK:
+*

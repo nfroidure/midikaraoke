@@ -1,0 +1,132 @@
+@keyframes pip {
+	0% { transform: scale(1,1); }
+	100% { transform: scale(1,0); opacity:0; }
+}
+@-webkit-keyframes pip {
+	0% { -webkit-transform: scale(1,1); }
+	100% { -webkit-transform: scale(1,0); opacity:0; }
+}
+@-moz-keyframes pip {
+	0% { -moz-transform: scale(1,1); }
+	100% { -moz-transform: scale(1,0); opacity:0; }
+}
+@-ms-keyframes pip {
+	0% { -ms-transform: scale(1,1); }
+	100% { -ms-transform: scale(1,0); opacity:0; }
+}
+@keyframes pop {
+	0% { transform: scale(1,0); }
+	100% { transform: scale(1,1); }
+}
+@-webkit-keyframes pop {
+	0% { -webkit-transform: scale(1,0); }
+	100% { -webkit-transform: scale(1,1); }
+}
+@-moz-keyframes pop {
+	0% { -moz-transform: scale(1,0); }
+	100% { -moz-transform: scale(1,1); }
+}
+@-ms-keyframes pop {
+	0% { -ms-transform: scale(1,0); }
+	100% { -ms-transform: scale(1,1); }
+}
+html, body { display:block; width:100%; height:100%; color:#fff; padding:0; margin:0;
+	background: #258dc8; /* Old browsers */
+	background: -moz-linear-gradient(top,  #258dc8 0%, #258dc8 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#258dc8), color-stop(100%,#258dc8)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #258dc8 0%,#258dc8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #258dc8 0%,#258dc8 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #258dc8 0%,#258dc8 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #258dc8 0%,#258dc8 100%); /* W3C */
+	}
+/* Popin */
+div.popin { display:none; position:absolute; top:0; right:0; max-width:300px; height:100%; text-align:center; overflow:hidden; }
+div.popin.selected { display:block; }
+div.popin a { color:#fff; font-weight:bold; }
+/* Player */
+div.player { position:absolute; bottom:0; width:100%; height:35px; text-align:center; overflow:hidden; }
+div.player.hide {
+	animation-name: pip;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	-webkit-animation-name: pip;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-name: pip;
+	-moz-animation-duration: 0.5s;
+	-moz-animation-iteration-count: 1;
+	-ms-animation-name: pip;
+	-ms-animation-duration: 0.5s;
+	-ms-animation-iteration-count: 1;
+}
+div.player form { display:inline-block; display:none; height:35px; line-height:35px; margin:0; padding:0; }
+div.player p { display:inline-block; height:35px; max-width:600px; width:100%; margin:0 auto; padding:0; background:rgba(255,255,255,0.2);
+	border-radius:5px 5px 0 0; }
+div.player p span.separator { display:inline-block; width:1px; height:35px; background:rgba(255,255,255,0.2); margin:0 10px; }
+div.player p span.playlist { display:inline-block; height:35px; }
+div.player p a { display:inline-block; width:30px; height:35px; background-image:url(../images/sprites.png); }
+div.player p a span { display:none; }
+div.player p a { background-position:0px -80px; }
+div.player p a[disabled="disabled"] { background-position:0px -115px; }
+div.player p a.previous { background-position:-30px -80px; }
+div.player p a[disabled="disabled"].previous { background-position:-30px -115px; }
+div.player p a.backward { background-position:-60px -80px; }
+div.player p a[disabled="disabled"].backward { background-position:-60px -115px; }
+div.player p a.play { background-position:-90px -80px; }
+div.player p a[disabled="disabled"].play { background-position:-90px -115px; }
+div.player p a.pause { background-position:-120px -80px; }
+div.player p a[disabled="disabled"].pause { background-position:-120px -115px; }
+div.player p a.stop { background-position:-150px -80px; }
+div.player p a[disabled="disabled"].stop { background-position:-150px -115px; }
+div.player p a.forward { background-position:-180px -80px; }
+div.player p a[disabled="disabled"].forward { background-position:-180px -115px; }
+div.player p a.next { background-position:-210px -80px; }
+div.player p a[disabled="disabled"].next { background-position:-210px -115px; }
+div.player p a.volumedown { background-position:-240px -80px; }
+div.player p a[disabled="disabled"].volumedown { background-position:-240px -115px; }
+div.player p a.volumeup { background-position:-270px -80px; }
+div.player p a[disabled="disabled"].volumeup { background-position:-270px -115px; }
+div.player p a.volumemute { background-position:-300px -80px; }
+div.player p a[disabled="disabled"].volumemute { background-position:-300px -115px; }
+div.player p a.textsmaller { background-position:-330px -80px; }
+div.player p a[disabled="disabled"].textsmaller { background-position:-330px -115px; }
+div.player p a.textbigger { background-position:-360px -80px; }
+div.player p a[disabled="disabled"].textbigger { background-position:-360px -115px; }
+input[type="file"] { visibility:hidden; position:absolute; top:-50px; left:-50px; }
+/* Lyrics */
+div.screen { width:100%; height:100%; display:table; }
+div.lyrics { width:100%; height:100%; display:table-cell; vertical-align:middle; text-align:center; font-size:50px; }
+div.lyrics p { display:none; color:#fff; font-weight:bold; margin:0; text-shadow:1px 1px 1px #000; }
+div.lyrics p.popout { display:block; color:#ccc;
+	animation-name: pip;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	-webkit-animation-name: pip;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-name: pip;
+	-moz-animation-duration: 0.5s;
+	-moz-animation-iteration-count: 1;
+	-ms-animation-name: pip;
+	-ms-animation-duration: 0.5s;
+	-ms-animation-iteration-count: 1;
+	}
+div.lyrics p.closetopop { display:block; color:#ccc; 
+	animation-name: pop;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	-webkit-animation-name: pop;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-name: pop;
+	-moz-animation-duration: 0.5s;
+	-moz-animation-iteration-count: 1;
+	-ms-animation-name: pop;
+	-ms-animation-duration: 0.5s;
+	-ms-animation-iteration-count: 1;
+}
+div.lyrics p.pop { display:block;
+}
+div.lyrics p.pop span.sing {
+	color: #F9BA1B;
+}

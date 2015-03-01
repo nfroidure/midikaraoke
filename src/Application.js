@@ -47,16 +47,26 @@ function Application() {
 };
 
 Application.prototype.midiAccess = function(midiAccess) {
-	this.outputs = midiAccess.outputs();
+	this.outputs = midiAccess.outputs;
+	this.outputKeys = [];
+  var iter = outputs.values();
+  var output;
+  while(output = iter.next()) {
+    if(output.done) {
+      break;
+    }
+    outputKeys.push(output.value.id);
+  }
+	
 	// check output
-	if(!this.outputs.length) {
+	if(!this.outputs.size) {
 	  this.noMidiOutputs();
 	  return;
 	}
 	document.getElementById('about').classList.add('selected');
 	// creating player
 	this.midiPlayer=new MIDIPlayer({
-	  'output': this.outputs[0]
+	  'output': this.outputs.get(outputKeys[0])
 	});
 	// Download the intro
 	this.downloadFile("./sounds/Hello.mid");

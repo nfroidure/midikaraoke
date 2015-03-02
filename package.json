@@ -1,6 +1,6 @@
 {
   "name": "MIDIKaraoke",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Play MIDI Karaoke files right in your browser",
   "main": "src/Application.js",
   "private": true,

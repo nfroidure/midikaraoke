@@ -49,13 +49,13 @@ function Application() {
 Application.prototype.midiAccess = function(midiAccess) {
 	this.outputs = midiAccess.outputs;
 	this.outputKeys = [];
-  var iter = outputs.values();
+  var iter = this.outputs.values();
   var output;
   while(output = iter.next()) {
     if(output.done) {
       break;
     }
-    outputKeys.push(output.value.id);
+    this.outputKeys.push(output.value.id);
   }
 	
 	// check output
@@ -66,7 +66,7 @@ Application.prototype.midiAccess = function(midiAccess) {
 	document.getElementById('about').classList.add('selected');
 	// creating player
 	this.midiPlayer=new MIDIPlayer({
-	  'output': this.outputs.get(outputKeys[0])
+	  'output': this.outputs.get(this.outputKeys[0])
 	});
 	// Download the intro
 	this.downloadFile("./sounds/Hello.mid");

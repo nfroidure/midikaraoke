@@ -556,11 +556,14 @@ MIDIEvents.createParser=function(stream, startAt, strictMode) {
 							}
 							return event;
 							break;
-						 // Not implemented
 						case MIDIEvents.EVENT_META_TIME_SIGNATURE:
 							if(strictMode&&4!==event.length)
 								throw new Error(stream.pos()+' Bad metaevent length.');
 							event.data=stream.readBytes(event.length);
+							event.param1=event.data[0];
+							event.param2=event.data[1];
+							event.param3=event.data[2];
+							event.param4=event.data[3];
 							return event;
 							break;
 						case MIDIEvents.EVENT_META_SEQUENCER_SPECIFIC:
@@ -1644,8 +1647,8 @@ module.exports = MIDIFileTrack;
 
 
 },{}],9:[function(require,module,exports){
-module.exports=require(2)
-},{"/home/nfroidure/projects/MIDIKaraoke/node_modules/midifile/node_modules/midievents/src/MIDIEvents.js":2}],10:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"dup":2}],10:[function(require,module,exports){
 var MIDIEvents = require('midievents');
 
 // Constants
@@ -1665,6 +1668,7 @@ function MIDIPlayer(options) {
 		this.notesOn[i] = [];
 	}
 	this.midiFile = null;
+	window.addEventListener('unload', this.stop.bind(this));
 }
 
 // Parsing all tracks and add their events in a single event queue
@@ -1816,6 +1820,17 @@ function Application() {
 
 Application.prototype.midiAccess = function(midiAccess) {
 	this.outputs = midiAccess.outputs;
+	this.outputKeys = [];
+  var iter = this.outputs.values();
+  var output;
+  while(output = iter.next()) {
+    if(output.done) {
+      break;
+    }
+    this.outputKeys.push(output.value.id);
+  }
+  console.log(this.outputKeys)
+	
 	// check output
 	if(!this.outputs.size) {
 	  this.noMidiOutputs();
@@ -1824,7 +1839,7 @@ Application.prototype.midiAccess = function(midiAccess) {
 	document.getElementById('about').classList.add('selected');
 	// creating player
 	this.midiPlayer=new MIDIPlayer({
-	  'output': this.outputs[0]
+	  'output': this.outputs.get(this.outputKeys[4])
 	});
 	// Download the intro
 	this.downloadFile("./sounds/Hello.mid");

@@ -92,6 +92,8 @@ div.player p a.textsmaller { background-position:-330px -80px; }
 div.player p a[disabled="disabled"].textsmaller { background-position:-330px -115px; }
 div.player p a.textbigger { background-position:-360px -80px; }
 div.player p a[disabled="disabled"].textbigger { background-position:-360px -115px; }
+div.player p a.outputselect { background-position:-390px -80px; }
+div.player p a[disabled="disabled"].outputselect { background-position:-390px -115px; }
 input[type="file"] { visibility:hidden; position:absolute; top:-50px; left:-50px; }
 /* Lyrics */
 div.screen { width:100%; height:100%; display:table; }

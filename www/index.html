@@ -62,10 +62,13 @@
 			  disabled="disabled" class="textsmaller"><span>A-</span></a>
 			<a href="app:setTextSize?type=bigger" title="Make texts bigger"
 			  disabled="disabled" class="textbigger"><span>A+</span></a>
+			<span class="separator"></span>
+			<a href="app:selectOutput" title="Change output"
+			  disabled="disabled" class="outputselect"><span>O</span></a>
 		</p>
 	</div>
 	<div class="popins">
-		<div class="popin" id="output">
+		<div class="popin" id="nooutput">
 			<h2>No MIDI output!</h2>
 			<p>
 			  Despite the fact you could play MIDI, it appears you have no MIDI output
@@ -98,6 +101,22 @@
 			  MacOSX, please <a href="http://jazz-soft.net/download/Jazz-Plugin/"
 			    title="Download the plug-in">download the Jazz MIDI plug-in</a>.
 			</p>
+		</div>
+		<div class="popin" id="output">
+			<h2><span>Switch output</span></h2>
+			<p>
+			  You can choose a different MIDI output here:
+			</p>
+			<form action="app:setOutput">
+			  <p><label>Outputs:
+			    <select id="outputChooser">
+			    </select>
+			  </label></p>
+			  <p>
+					<input type="submit" value="Cancel" formaction="app:closePopin?id=output" />
+					<input type="submit" value="Set" />
+				</p>
+			</form>
 		</div>
 		<div class="popin" id="about">
 			<h2><span>MIDIWebKaraoke</span></h2>

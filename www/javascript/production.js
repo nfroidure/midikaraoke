@@ -1793,6 +1793,7 @@ function Application() {
 	this.volumeMuteButton=document.getElementsByClassName('volumemute')[0];
 	this.textSmallerButton=document.getElementsByClassName('textsmaller')[0];
 	this.textBiggerButton=document.getElementsByClassName('textbigger')[0];
+	this.outputSelectButton=document.getElementsByClassName('outputselect')[0];
 	// lyrics display
 	this.lyricsDisplayer=new MIDILyricsDisplayer(
 		document.querySelector('div.lyrics'));
@@ -1809,6 +1810,8 @@ function Application() {
 	this.cmdMgr.suscribe('setTextSize',
 		this.lyricsDisplayer.setTextSize.bind(this.lyricsDisplayer));
 	this.cmdMgr.suscribe('closePopin',this.closePopin.bind(this));
+	this.cmdMgr.suscribe('selectOutput',this.selectOutput.bind(this));
+	this.cmdMgr.suscribe('setOutput',this.setOutput.bind(this));
 	// Try to enable the MIDI Access
 	if(!navigator.requestMIDIAccess) {
 		this.noMidiAccess();
@@ -1829,7 +1832,6 @@ Application.prototype.midiAccess = function(midiAccess) {
     }
     this.outputKeys.push(output.value.id);
   }
-  console.log(this.outputKeys)
 	
 	// check output
 	if(!this.outputs.size) {
@@ -1839,7 +1841,7 @@ Application.prototype.midiAccess = function(midiAccess) {
 	document.getElementById('about').classList.add('selected');
 	// creating player
 	this.midiPlayer=new MIDIPlayer({
-	  'output': this.outputs.get(this.outputKeys[4])
+	  'output': this.outputs.get(this.outputKeys[0])
 	});
 	// Download the intro
 	this.downloadFile("./sounds/Hello.mid");
@@ -1850,6 +1852,7 @@ Application.prototype.midiAccess = function(midiAccess) {
 	this.volumeMuteButton.removeAttribute('disabled');
 	this.textSmallerButton.removeAttribute('disabled');
 	this.textBiggerButton.removeAttribute('disabled');
+	this.outputSelectButton.removeAttribute('disabled');
 };
 
 Application.prototype.noMidiAccess = function() {
@@ -1857,7 +1860,7 @@ Application.prototype.noMidiAccess = function() {
 };
 
 Application.prototype.noMidiOutputs = function() {
-	document.getElementById('outputs').classList.add('selected');
+	document.getElementById('nooutput').classList.add('selected');
 };
 
 Application.prototype.pickFile = function() {
@@ -1947,6 +1950,34 @@ Application.prototype.downloadFile = function(url) {
 		this.play();
 	}).bind(this);
 	oReq.send(null);
+};
+
+Application.prototype.selectOutput = function(event) {
+  var iter = this.outputs.values();
+  var output;
+  var outputChooser = document.getElementById("outputChooser");
+  while(outputChooser.firstChild) {
+    outputChooser.removeChild(outputChooser.firstChild);
+  }
+  while(output = iter.next()) {
+    if(output.done) {
+      break;
+    }
+    var opt = document.createElement("option");
+    opt.value = output.value.id;
+    opt.text = output.value.name;
+    outputChooser.add(opt);
+  }
+	document.getElementById('output').classList.add('selected');
+};
+
+Application.prototype.setOutput = function(event) {
+	document.getElementById('output').classList.remove('selected');
+	if(!event.target[0].value)
+		return;
+	this.midiPlayer.stop();
+	this.midiPlayer.output = this.outputs.get(event.target[0].value);
+	this.midiPlayer.play();
 };
 
 Application.prototype.selectFile = function() {

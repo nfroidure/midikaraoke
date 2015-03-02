@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
+    "publish": "buildbranch gh-pages www karaoke.insertafter.com",
     "build": "browserify src/Application.js > www/javascript/production.js"
   },
   "repository": {
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "browserify": "^9.0.3",
+    "buildbranch": "0.0.2",
     "node-http-server": "^2.0.0"
   }
 }

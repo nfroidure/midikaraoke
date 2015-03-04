@@ -1778,7 +1778,14 @@ var Commandor = require('commandor')
 ;
 
 function Application() {
-	window.karaoke = this;
+
+  // GA Tracking
+  this._trackEvent = function() {
+    if('undefined' !== typeof window.ga) {
+      ga.apply(ga, ['send'].concat([].slice.call(arguments, 0)));
+    }
+  };
+
 	// Registering ui elements
 	this.filePicker=document.querySelector('input[type="file"]');
   this.filePicker.addEventListener('change', this.readFile.bind(this));
@@ -1838,6 +1845,7 @@ Application.prototype.midiAccess = function(midiAccess) {
 	  this.noMidiOutputs();
 	  return;
 	}
+  this._trackEvent('setup', 'midiaccess', this.outputKeys[0], this.outputs.size);
 	document.getElementById('about').classList.add('selected');
 	// creating player
 	this.midiPlayer=new MIDIPlayer({
@@ -1856,14 +1864,17 @@ Application.prototype.midiAccess = function(midiAccess) {
 };
 
 Application.prototype.noMidiAccess = function() {
+  this._trackEvent('setup', 'nomidiaccess', window.navigator.userAgent);
 	document.getElementById('jazz').classList.add('selected');
 };
 
 Application.prototype.noMidiOutputs = function() {
+  this._trackEvent('setup', 'nomidioutput', window.navigator.userAgent);
 	document.getElementById('nooutput').classList.add('selected');
 };
 
 Application.prototype.pickFile = function() {
+  this._trackEvent('use', 'pickfile');
 	this.filePicker.click();
 };
 
@@ -1873,8 +1884,10 @@ Application.prototype.setOutput = function(event, params) {
 
 Application.prototype.readFile = function(event) {
 	var reader = new FileReader();
+	this._trackEvent('use', 'filepicked', event.target.files[0].name, event.target.files[0].length);
 	reader.readAsArrayBuffer(event.target.files[0]);
 	reader.onloadend=(function(event) {
+    this._trackEvent('use', 'fileloaded');
 		this.loadFile(event.target.result);
 	}).bind(this);
 };
@@ -1901,6 +1914,7 @@ Application.prototype.play = function(buffer) {
 
 Application.prototype.pause = function(buffer) {
 	if(this.midiPlayer.pause()) {
+    this._trackEvent('use', 'pause');
 		this.playButton.removeAttribute('disabled');
 		this.pauseButton.setAttribute('disabled','disabled');
 		this.stopButton.setAttribute('disabled','disabled');
@@ -1910,6 +1924,7 @@ Application.prototype.pause = function(buffer) {
 
 Application.prototype.stop = function(buffer) {
 	if(this.midiPlayer.stop()) {
+    this._trackEvent('use', 'stop');
 		this.playButton.removeAttribute('disabled');
 		this.pauseButton.setAttribute('disabled','disabled');
 		this.stopButton.setAttribute('disabled','disabled');
@@ -1918,6 +1933,7 @@ Application.prototype.stop = function(buffer) {
 };
 
 Application.prototype.endCallback = function() {
+  this._trackEvent('use', 'playend');
 	this.playButton.removeAttribute('disabled');
 	this.pauseButton.setAttribute('disabled','disabled');
 	this.stopButton.setAttribute('disabled','disabled');
@@ -1930,6 +1946,7 @@ Application.prototype.forward = function(buffer) {
 };
 
 Application.prototype.volume = function(event, params) {
+  this._trackEvent('use', 'volume', params.type, this.midiPlayer.volume);
 	if('less'===params.type) {
 		this.midiPlayer.volume=(this.midiPlayer.volume<10?
 			0:this.midiPlayer.volume-10);
@@ -1953,6 +1970,7 @@ Application.prototype.downloadFile = function(url) {
 };
 
 Application.prototype.selectOutput = function(event) {
+  this._trackEvent('use', 'selectoutput');
   var iter = this.outputs.values();
   var output;
   var outputChooser = document.getElementById("outputChooser");
@@ -1972,6 +1990,7 @@ Application.prototype.selectOutput = function(event) {
 };
 
 Application.prototype.setOutput = function(event) {
+  this._trackEvent('use', 'setoutput', event.target[0].value);
 	document.getElementById('output').classList.remove('selected');
 	if(!event.target[0].value)
 		return;
@@ -1988,6 +2007,7 @@ Application.prototype.selectFile = function() {
 };
 
 Application.prototype.closePopin = function(event, params) {
+  this._trackEvent('use', 'closepopin', params.id);
 	document.getElementById(params.id).classList.remove('selected');
 };
 

@@ -1782,7 +1782,7 @@ function Application() {
   // GA Tracking
   this._trackEvent = function() {
     if('undefined' !== typeof window.ga) {
-      ga.apply(ga, ['send'].concat([].slice.call(arguments, 0)));
+      ga.apply(null, ['send'].concat([].slice.call(arguments, 0)));
     }
   };
 
@@ -1839,7 +1839,7 @@ Application.prototype.midiAccess = function(midiAccess) {
     }
     this.outputKeys.push(output.value.id);
   }
-	
+
 	// check output
 	if(!this.outputs.size) {
 	  this.noMidiOutputs();

@@ -24,7 +24,7 @@ const MIME_TYPES={
 
 // Global vars
 var rootDirectory=__dirname+'/www', // default directory
-	domain='hexa.insertafter.com',
+	domain='karaoke.insertafter.com',
 	port=8128;
 
 // HTTP Server
@@ -118,7 +118,7 @@ var httpServer=http.createServer(function (request, response) {
 				var chunks = request.headers.range.replace(/bytes=/, "").split("-");
 				start = parseInt(chunks[0],10);
 				end =  chunks[1] ? parseInt(chunks[1], 10) :
-					headers['Content-Length']-1; 
+					headers['Content-Length']-1;
 				headers['Content-Range'] = 'bytes ' + start + '-' + end + '/'
 					+ (headers['Content-Length']);
 				headers['Accept-Ranges'] = 'bytes';
@@ -160,7 +160,7 @@ var httpServer=http.createServer(function (request, response) {
 				response.end();
 			}
 		}
-	); 
+	);
 }).listen(port);
 
 console.log('Server started on http://'+domain+':'+port+'/, '

@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/nfroidure/MIDIKaraoke/issues"
   },
-  "homepage": "https://github.com/nfroidure/MIDIKaraoke",
+  "homepage": "http://karaoke.insertafter.com",
   "dependencies": {
     "midifile": "^1.0.1",
     "commandor": "^0.1.2",

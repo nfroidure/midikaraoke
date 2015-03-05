@@ -1782,7 +1782,7 @@ function Application() {
   // GA Tracking
   this._trackEvent = function() {
     if('undefined' !== typeof window.ga) {
-      ga.apply(null, ['send'].concat([].slice.call(arguments, 0)));
+      ga.apply(null, ['send', 'event'].concat([].slice.call(arguments, 0)));
     }
   };
 

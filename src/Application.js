@@ -9,7 +9,7 @@ function Application() {
 
   // GA Tracking
   this._trackEvent = function() {
-    if('undefined' !== typeof window.ga) {
+    if('function' === typeof window.ga) {
       ga.apply(null, ['send', 'event'].concat([].slice.call(arguments, 0)));
     }
   };

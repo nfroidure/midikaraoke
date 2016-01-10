@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html manifest="application.manifest" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>MIDIWebKaraoke: MIDI Karaoke files player</title>
+	<meta name="description"
+	  content="Play MIDI Karaoke (.kar .mid) files in your browser !" />
+	<meta name="viewport"
+	  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<!--[if lt IE 10]><script type="text/javascript">
+		alert('Ooops, you are using an old browser. Please come back with a recenter one.');
+		document.location.href="http://browsehappy.com/";
+	</script><![endif]-->
+	<!-- WebMidiAPI polyfill -->
+	<script src="javascript/polyfills/WebMIDIAPI.js" type="text/javascript"></script>
+	<link rel="icon" type="image/png" href="images/favicon.png" />
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-37199172-8', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+</head>
+<body>
+	<input type="file" />
+	<div class="screen"><div class="lyrics"></div></div>
+	<div class="player">
+		<p>
+			<a href="app:pickFile" title="Pick karaoke files" disabled="disabled"
+			  class="pick"><span>Pick</span></a><!--
+			<a href="app:previous" title="Go to the previous song" disabled="disabled"
+			  class="previous"><span>Previous</span></a>
+			<a href="app:next" title="Go to the next song" disabled="disabled"
+			  class="next"><span>Next</span></a>-->
+			<span class="separator"></span>
+			<a href="app:play" title="Play the selected song" disabled="disabled"
+			  class="play"><span>Play</span></a>
+			<a href="app:pause" title="Pause the selected song" disabled="disabled"
+			  class="pause"><span>Pause</span></a>
+			<a href="app:stop" title="Stop playing the selected song"
+			  disabled="disabled" class="stop"><span>Stop</span></a><!--
+			<span class="separator"></span>
+			<a href="app:backward" title="Go backward" disabled="disabled"
+			  class="backward"><span>Backward</span></a>
+			<a href="app:forward" title="Go forward" disabled="disabled"
+			  class="forward"><span>Forward</span></a>-->
+			<span class="separator"></span>
+			<a href="app:volume?type=mute" title="Make texts smaller"
+			  disabled="disabled" class="volumemute"><span>Mute sound</span></a>
+			<a href="app:volume?type=less" title="Increase the volume level"
+			  disabled="disabled" class="volumedown"><span>Volume down</span></a>
+			<a href="app:volume?type=more" title="Decrease the volume level"
+			  disabled="disabled" class="volumeup"><span>Volume up</span></a>
+			<span class="separator"></span>
+			<a href="app:setTextSize?type=smaller" title="Make texts smaller"
+			  disabled="disabled" class="textsmaller"><span>A-</span></a>
+			<a href="app:setTextSize?type=bigger" title="Make texts bigger"
+			  disabled="disabled" class="textbigger"><span>A+</span></a>
+			<span class="separator"></span>
+			<a href="app:selectOutput" title="Change output"
+			  disabled="disabled" class="outputselect"><span>O</span></a>
+		</p>
+	</div>
+	<div class="popins">
+		<div class="popin" id="nooutput">
+			<h2>No MIDI output!</h2>
+			<p>
+			  Despite the fact you could play MIDI, it appears you have no MIDI output
+			  available. You could plug a MIDI synthetizer or even install a software
+			  one.
+			</p>
+		</div>
+		<div class="popin" id="jazz">
+			<h2>Enable MIDI output!</h2>
+			<p>
+			  You must enable MIDI output by doing one of the two suggested setup
+			  steps.
+			</p>
+			<p>
+			  After the step, just restart your browser, come back here and
+			  have fun!
+			</p>
+			<h3>For Google Chrome: Activate the Web MIDI API</h3>
+			<p>
+			  With Google Chrome, you can activate the Web MIDI API in Chrome to enjoy
+			  this player. To do so, just enable this experimental feature by
+			  copy/pasting the following link in your address bar and checking if
+			  the Web MIDI API is enabled: <br />
+			  <strong>chrome://flags/#enable-web-midi</strong>
+			</p>
+			<h3>Otherwise, install the Jazz plug-in</h2>
+			<p>
+			  This MIDI Karaoke player is using a very early web technology currently
+			  under standardization process.
+			</p>
+			<p>
+			  In order to enjoy this karaoke experience under Windows and
+			  MacOSX, please <a href="http://jazz-soft.net/download/Jazz-Plugin/"
+			    title="Download the plug-in">download the Jazz MIDI plug-in</a>,
+			  restart your browser and come back here!
+			</p>
+		</div>
+		<div class="popin" id="output">
+			<h2><span>Switch output</span></h2>
+			<p>
+			  You can choose a different MIDI output here:
+			</p>
+			<form action="app:setOutput">
+			  <p><label>Outputs:
+			    <select id="outputChooser">
+			    </select>
+			  </label></p>
+			  <p>
+					<input type="submit" value="Cancel" formaction="app:closePopin?id=output" />
+					<input type="submit" value="Set" />
+				</p>
+			</form>
+		</div>
+		<div class="popin" id="about">
+			<h2><span>MIDIWebKaraoke</span></h2>
+			<p>
+			  MIDIWebKaraoke is an online application allowing you to play the MIDI
+			  Karaoke files (.kar) or even MIDI files containing lyrics.
+			</p>
+			<p>
+			  MIDIWebKaraoke doesn't provide karaoke files, but you can find many
+			  Karaoke files on <a href="http://www.midaoke.com/artists/a_e/index.html"
+			    title="Find some KAR files">a</a> <a href="http://midkar.com/"
+			    title="Find some more KAR files">lot</a> of websites on the web
+			</p>
+			<p>
+			  It is based on <a href="https://github.com/nfroidure/Commandor"
+			    title="View the Commandor repo">Commandor</a>,
+			 <a href="https://github.com/nfroidure/MIDIFile" title="View its repo">
+			  the MIDIFile project
+			 </a> and the <a href="http://webaudio.github.io/web-midi-api/"
+			  title="View the WebMIDIAPI specifications">WebMIDIAPI</a> or its
+			 <a href="https://github.com/cwilso/WebMIDIAPIShim"
+			    title="Got to the polyfill git repository">polyfill</a>.
+			</p>
+			<p>
+			  You can <a href="https://twitter.com/nfroidure"
+			    title="View my twitter profile">find me on Twitter</a> or
+			  <a href="http://www.insertafter.com/blog.html" title="Read my blog">
+			  read my blog</a> to stay in touch, i'll post the project news there.
+			  MIDIly yours, Nicolas Froidure.
+			</p>
+			<p><a href="app:closePopin?id=about" title="Close this popin">Close</a></p>
+		</div>
+	</div>
+	<script src="javascript/production.js" type="text/javascript"></script>
+</body>
+</html>
